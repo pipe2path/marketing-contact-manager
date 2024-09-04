@@ -14,7 +14,6 @@ builder.Services.AddDbContext<CMContext>(opt =>
 { 
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });  
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
