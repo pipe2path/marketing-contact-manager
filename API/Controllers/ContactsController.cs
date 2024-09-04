@@ -53,7 +53,7 @@ namespace API.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult> UpdateContact(int id, Contact contact)
         {
-            if (contact.Id != id)
+            if (contact.Id != id || contact == null)
                 return BadRequest("Cannot update this product");
 
             _contactRepo.Update(contact);
