@@ -28,5 +28,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
+app.UseCors();
 
 app.Run();

@@ -36,7 +36,7 @@ namespace API.Controllers
         public async Task<ActionResult<Contact>> GetContact(int id)
         {
             var contact = await _contactRepo.GetByIdAsync(id);
-            if (contact == null) return NotFound();
+            if (contact == null) return NotFound("Contact not found");
             return contact;
         }
 
@@ -59,8 +59,8 @@ namespace API.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult> UpdateContact(int id, Contact contact)
         {
-            if (contact.Id != id || contact == null)
-                return BadRequest("Cannot update this product");
+            if (contact.Id != id)
+                return BadRequest("Contact not found, cannot update");
 
             _contactRepo.Update(contact);
             if (await _contactRepo.SaveAllAsync())
@@ -75,7 +75,7 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteContact(int id)
         {
             var contact = await _contactRepo.GetByIdAsync(id);
-            if (contact == null) return NotFound();
+            if (contact == null) return NotFound("Cannot find contact to delete");
 
             _contactRepo.Remove(contact);
             if (await _contactRepo.SaveAllAsync())
