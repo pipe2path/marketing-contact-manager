@@ -40,6 +40,7 @@ namespace API.Controllers
             return contact;
         }
 
+        [ValidateModel]
         [HttpPost]
         public async Task<ActionResult<Contact>> CreateContact(Contact contact)
         {
@@ -55,6 +56,7 @@ namespace API.Controllers
             return BadRequest("Problem creating contact");
         }
 
+        [ValidateModel]
         [HttpPut]
         [Route("{id:int}")]
         public async Task<ActionResult> UpdateContact(int id, Contact contact)

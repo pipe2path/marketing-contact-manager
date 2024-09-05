@@ -4,7 +4,6 @@ namespace Core.Entities
 {
     public class Contact : BaseEntity
     { 
-        // public int Id { get; set; }
         [Required]
         public required string FirstName { get; set; }
         [Required]
@@ -12,6 +11,7 @@ namespace Core.Entities
         [Required]
         public required string Email { get; set; }
         [Required]
+        [MaxLength(12)]
         public required string PhoneNumber { get; set; }
 
     }
