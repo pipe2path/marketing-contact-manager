@@ -28,5 +28,6 @@ if (app.Environment.IsDevelopment())
 // exception middleware added for unhandled exceptions
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
+app.UseCors();
 
 app.Run();
