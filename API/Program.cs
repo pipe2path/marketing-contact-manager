@@ -26,8 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// exception middleware added for unhandled exceptions
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
-app.UseCors();
 
 app.Run();
