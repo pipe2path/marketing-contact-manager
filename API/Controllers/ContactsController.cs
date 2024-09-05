@@ -7,6 +7,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using API.Errors;
 
 namespace API.Controllers
 {
@@ -25,6 +26,9 @@ namespace API.Controllers
         {
             var contacts = await _contactRepo.ListAllAsync();
             return Ok(contacts);
+            
+            // example to show unhandled exception handled by exception middleware
+            //throw new Exception("This is a test exception");
         }
 
         [HttpGet]
@@ -39,13 +43,15 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Contact>> CreateContact(Contact contact)
         {
+            if (contact == null)
+                return BadRequest("No contact data received");
+
             _contactRepo.Add(contact);
 
             if (await _contactRepo.SaveAllAsync())
             {
                 return CreatedAtAction("GetContact", new {id = contact.Id}, contact);
             }
-
             return BadRequest("Problem creating contact");
         }
 
