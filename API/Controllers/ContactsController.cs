@@ -8,6 +8,7 @@ using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using API.Errors;
+using System.Text.RegularExpressions;
 
 namespace API.Controllers
 {
@@ -44,8 +45,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Contact>> CreateContact(Contact contact)
         {
-            if (contact == null)
+            if (contact == null) 
                 return BadRequest("No contact data received");
+
+            if (!validEmail(contact.Email))
+                return BadRequest("Email address is not valid");
 
             _contactRepo.Add(contact);
 
@@ -64,6 +68,9 @@ namespace API.Controllers
             if (contact.Id != id)
                 return BadRequest("Contact not found, cannot update");
 
+            if (!validEmail(contact.Email))
+                return BadRequest("Email address is not valid");
+                
             _contactRepo.Update(contact);
             if (await _contactRepo.SaveAllAsync())
             {
@@ -85,6 +92,14 @@ namespace API.Controllers
                 return NoContent();
             }
             return BadRequest("Problem deleting this product");
+        }
+
+        private bool validEmail(string email)
+        {
+            var regex = new Regex(@"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
+            if (regex.IsMatch(email))
+                return true;
+            return false;
         }
     }
 }
